@@ -1,5 +1,6 @@
 //react-router dom
 import { Link } from 'react-router-dom'
+import { useEffect, useState } from 'react';
 
 // react-icons
 import { FcStackOfPhotos } from "react-icons/fc";
@@ -9,7 +10,23 @@ import {FaSun, FaMoon} from 'react-icons/fa'
 // components
 import {NavLinks} from "./"
 
+
+const themeFromLocalStorage = () => {
+  return localStorage.getItem("theme") || "light";
+}
+
 function Navbar() {
+const [theme, setTheme] = useState(themeFromLocalStorage())
+const toggleTheme = () => {
+  const newTheme = theme == "light" ? "dark" : "light"
+  setTheme(newTheme)
+};
+
+useEffect(()=>{
+  localStorage.setItem("theme", theme);
+  document.documentElement.setAttribute("data-theme" ,theme)
+},[theme])
+
   return <header className='bg-base-200'>
    <div className='navbar align-elements'>
 <div className="navbar-start ">
@@ -39,13 +56,13 @@ function Navbar() {
   </Link>
   <label className="swap swap-rotate">
   {/* this hidden checkbox controls the state */}
-  <input type="checkbox" />
+  <input type="checkbox" onClick={toggleTheme} />
 
   {/* sun icon */}
-<FaSun className="swap-on h-6 w-6 fill-current"/>
+<FaSun className="swap-off h-6 w-6 fill-current"/>
 
   {/* moon icon */}
-  <FaMoon className="swap-off h-6 w-6 fill-current"/>
+  <FaMoon className="swap-on h-6 w-6 fill-current"/>
 
 </label>
 </div>

@@ -5,6 +5,6 @@
 /* Components */
 @layer components {
     .align-elements {
-        @apply max-w-7xl mx-auto px-5
+        @apply max-w-[1600px] mx-auto px-5
     }
 }

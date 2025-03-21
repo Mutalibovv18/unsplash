@@ -6,6 +6,8 @@ import {Home, About, Contact, LikedImages} from './pages'
 // layouts 
 import Mainlayout from "./layouts/Mainlayout";
 
+// actions 
+import { action as HomeAction } from "./pages/Home";
 
 
 function App() {
@@ -15,7 +17,8 @@ const routes = createBrowserRouter ([
     children: [
       {
         index: true,
-        element: <Home/>
+        element: <Home/>,
+        action: HomeAction,
       },
       {
         path: '/about',
