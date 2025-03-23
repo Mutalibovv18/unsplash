@@ -1,13 +1,14 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 // pages
-import {Home, About, Contact, LikedImages} from './pages'
+import {Home, About, Contact, LikedImages, DownloadImages, ImageInfo} from './pages'
 
 // layouts 
 import Mainlayout from "./layouts/Mainlayout";
 
 // actions 
 import { action as HomeAction } from "./pages/Home";
+
 
 
 function App() {
@@ -32,6 +33,16 @@ const routes = createBrowserRouter ([
       {
         path: '/likedImages',
         element: <LikedImages/>
+      },
+
+      {
+        path: '/downloadImages',
+        element: <DownloadImages/>
+      },
+
+      {
+        path: '/imageInfo',
+        element: <ImageInfo/>
       },
     ]
 

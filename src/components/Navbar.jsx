@@ -5,10 +5,13 @@ import { useEffect, useState } from 'react';
 // react-icons
 import { FcStackOfPhotos } from "react-icons/fc";
 import { FaHeart } from "react-icons/fa6";
-import {FaSun, FaMoon} from 'react-icons/fa'
+import {FaSun, FaMoon , FaDownload} from 'react-icons/fa'
 
 // components
 import {NavLinks} from "./"
+
+// global-context
+import { useGlobalContext } from '../hooks/useGlobalContext';
 
 
 const themeFromLocalStorage = () => {
@@ -16,6 +19,7 @@ const themeFromLocalStorage = () => {
 }
 
 function Navbar() {
+const {likedImages, downloadImages} = useGlobalContext()
 const [theme, setTheme] = useState(themeFromLocalStorage())
 const toggleTheme = () => {
   const newTheme = theme == "light" ? "dark" : "light"
@@ -47,10 +51,19 @@ useEffect(()=>{
   <NavLinks/>
 </ul>
 </div>
-<div className="navbar-end flex gap-3 items-center">
-  <Link to='/likedImages'>
+<div className="navbar-end flex gap-6 items-center">
+
+<Link to='/downloadImages'>
   <div className="indicator">
-  <span className="indicator-item badge badge-sm badge-secondary">0</span>
+  <span className="indicator-item badge badge-sm badge-secondary">{downloadImages.length}</span>
+  <FaDownload className='h-6 w-6'/>
+</div>
+  </Link>
+
+
+<Link to='/likedImages'>
+  <div className="indicator">
+  <span className="indicator-item badge badge-sm badge-secondary">{likedImages.length}</span>
   <FaHeart className='h-6 w-6'/>
 </div>
   </Link>
