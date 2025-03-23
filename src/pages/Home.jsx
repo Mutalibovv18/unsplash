@@ -18,9 +18,9 @@ function Home() {
   const prevSearchParam = useRef(searchParamFromAction)
 
   // environment variable 
-  const apiKey = import.meta.env.VITE_ACCESS_KEY;
-  const url = `https://api.unsplash.com/search/photos?client_id=${apiKey}&query=${searchParamFromAction ?? "all" }&page=${pageParam}`;
-
+  const apiKey = "f7BdfaS-4yMU_We54UBrQGM7ZhtKHCvMrnioq0wrOFs"; 
+  const url = `https://api.unsplash.com/search/photos?client_id=${apiKey}&query=${searchParamFromAction ?? "all"}&page=${pageParam}`;
+  
   //  `useFetch` usage
   const { data, isPending, error } = useFetch(url);
 
