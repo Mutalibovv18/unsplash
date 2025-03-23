@@ -41,7 +41,7 @@ const routes = createBrowserRouter ([
       },
 
       {
-        path: '/imageInfo',
+        path: '/imageInfo?/:id',
         element: <ImageInfo/>
       },
     ]
