@@ -27,7 +27,16 @@ switch (type) {
         };
         default :
         return state;
+
+        case "DOWNLOAD":
+            return {
+              ...state,
+              downloadImages: [...state.downloadImages, action.payload],
+            };
 }
+
+
+
 
 }
 
