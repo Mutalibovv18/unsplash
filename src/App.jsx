@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import {Home, About, Contact, LikedImages, DownloadImages, ImageInfo} from './pages'
 
 // layouts 
-import Mainlayout from "./layouts/Mainlayout";
+import MainLayout from "./layouts/MainLayout";
 
 // actions 
 import { action as HomeAction } from "./pages/Home";
@@ -14,7 +14,7 @@ import { action as HomeAction } from "./pages/Home";
 function App() {
 const routes = createBrowserRouter ([
   { path: "/",
-    element: <Mainlayout/>,
+    element: <MainLayout/>,
     children: [
       {
         index: true,
