@@ -1,7 +1,7 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 // pages
-import {Home, About, Contact, LikedImages, DownloadImages, ImageInfo} from './pages'
+import {Home, About, Contact, LikedImages, DownloadImages, ImageInfo, Login, Register} from './pages'
 
 // layouts 
 import MainLayout from "./layouts/MainLayout";
@@ -12,6 +12,7 @@ import { action as HomeAction } from "./pages/Home";
 
 
 function App() {
+const user = true
 const routes = createBrowserRouter ([
   { path: "/",
     element: <MainLayout/>,
@@ -43,6 +44,16 @@ const routes = createBrowserRouter ([
       {
         path: '/imageInfo?/:id',
         element: <ImageInfo/>
+      },
+
+      {
+        path: '/login',
+        element: user ? <Navigate to="/" /> : <Login/>
+      },
+
+      {
+        path: '/register',
+        element: user ? <Navigate to="/" /> : <Register/>
       },
     ]
 

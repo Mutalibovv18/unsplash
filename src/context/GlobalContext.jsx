@@ -1,50 +1,50 @@
 import { createContext, useEffect, useReducer } from "react";
-import { LikedImages } from "../pages";
-import { action } from "../pages/Home";
 
-export const GlobalContext = createContext()
+export const GlobalContext = createContext();
+
 const dataFromLocalStorage = () => {
-    return JSON.parse(localStorage.getItem("my-splash-data")) || {
-likedImages: [],
-downloadImages: [],
-    };
+  try {
+    const savedData = JSON.parse(localStorage.getItem("my-splash-data"));
+    return savedData || { likedImages: [], downloadImages: [] };
+  } catch {
+    return { likedImages: [], downloadImages: [] };
+  }
 };
 
 const changeState = (state, action) => {
-const {type, payload} = action;
+  const { type, payload } = action;
 
-switch (type) {
-    case "LIKE" : 
-    return {
-        ...state,
-        likedImages:[...state.likedImages, payload],
+  switch (type) {
+    case "LIKE":
+      return { ...state, likedImages: [...state.likedImages, payload] };
 
-    };
-    case "UNLIKE" :
-        return {
-            ...state,
-            likedImages: state.likedImages.filter((image) => image.id != payload),
-        };
-        default :
-        return state;
+    case "UNLIKE":
+      return { ...state, likedImages: state.likedImages.filter((image) => image.id !== payload) };
 
-        case "DOWNLOAD":
-            return {
-              ...state,
-              downloadImages: [...state.downloadImages, action.payload],
-            };
+    case "DOWNLOAD":
+      if (!state.downloadImages.some((img) => img.id === payload.id)) {
+        return { ...state, downloadImages: [...state.downloadImages, payload] };
+      }
+      return state; 
+
+    case "REMOVE_DOWNLOAD":
+      return { ...state, downloadImages: state.downloadImages.filter((img) => img.id !== payload) };
+
+    default:
+      return state;
+  }
+};
+
+export function GlobalContextProvider({ children }) {
+  const [state, dispatch] = useReducer(changeState, dataFromLocalStorage());
+
+  useEffect(() => {
+    localStorage.setItem("my-splash-data", JSON.stringify(state));
+  }, [state]);
+
+  return (
+    <GlobalContext.Provider value={{ ...state, dispatch }}>
+      {children}
+    </GlobalContext.Provider>
+  );
 }
-
-
-
-
-}
-
-export function GlobalContextProvider({children}) {
-    const [state, dispatch] = useReducer(changeState, dataFromLocalStorage())
-
-    useEffect(() => {
-        localStorage.setItem("my-splash-data", JSON.stringify(state))
-    }, [state])
-
-return <GlobalContext.Provider value={{ ...state, dispatch}}>{children}</GlobalContext.Provider>}

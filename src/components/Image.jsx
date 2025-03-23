@@ -19,7 +19,6 @@ function Image({ image, added }) {
       dispatch({ type: "UNLIKE", payload: image.id });
     }
   };
-
   const downloadImage = (event) => {
     event.preventDefault();
     window.open(links.download + "&force=true", "_blank");
