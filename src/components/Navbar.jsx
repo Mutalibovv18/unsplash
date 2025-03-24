@@ -1,29 +1,45 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { FcStackOfPhotos } from "react-icons/fc";
 import { FaHeart } from "react-icons/fa6";
-import { FaSun, FaMoon, FaDownload } from 'react-icons/fa'
-import { NavLinks } from "./"
+import { FaSun, FaMoon, FaDownload } from 'react-icons/fa';
+import { NavLinks } from "./";
 import { useGlobalContext } from '../hooks/useGlobalContext';
+// firebase
+import { signOut } from 'firebase/auth';
+import { auth } from '../firebase/firebaseConfig';
+import { toast } from 'react-toastify';
 
 const themeFromLocalStorage = () => {
   return localStorage.getItem("theme") || "light";
 }
 
 function Navbar() {
-  const { likedImages = [], downloadImages = [] } = useGlobalContext();
+  const { likedImages = [], downloadImages = [], user, dispatch } = useGlobalContext();
   const [theme, setTheme] = useState(themeFromLocalStorage());
   const [downloadCount, setDownloadCount] = useState(downloadImages.length);
   const [likedCount, setLikedCount] = useState(likedImages.length);
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     setDownloadCount(downloadImages.length);
     setLikedCount(likedImages.length);
-  }, [downloadImages, likedImages]); // Watch for changes
+  }, [downloadImages, likedImages]); 
 
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
+  };
+
+  const signOutUser = async () => {
+    try {
+      await signOut(auth);
+      dispatch({ type: "LOGOUT" });
+      toast.success("See you soon");
+      navigate('/login'); // Redirect to the login page after successful logout
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
 
   useEffect(() => {
@@ -74,6 +90,44 @@ function Navbar() {
             <FaSun className="swap-off h-6 w-6 fill-current" />
             <FaMoon className="swap-on h-6 w-6 fill-current" />
           </label>
+
+          <div className='flex gap-3 items-center'>
+            {/* Check if user exists before accessing its properties */}
+            {user && user.displayName ? (
+              <p>{user.displayName.split("")[0]}</p> // Safely display the first character of the user's display name
+            ) : (
+              <p>U</p> // Default value in case the user or displayName is null
+            )}
+
+            <div className="dropdown dropdown-end">
+              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                <div className="w-10 rounded-full">
+                  <img
+                    alt="User Avatar"
+                    // Safely handle user photoURL, defaulting to a placeholder if null
+                    src={user && user.photoURL ? user.photoURL : "https://via.placeholder.com/40"} 
+                  />
+                </div>
+              </div>
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                <li>
+                  <a className="justify-between">
+                    Profile
+                    <span className="badge">New</span>
+                  </a>
+                </li>
+                <li><a>Settings</a></li>
+                <li><button onClick={signOutUser}>Logout</button></li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <div className="avatar">
+            </div>
+          </div>
         </div>
       </div>
     </header>

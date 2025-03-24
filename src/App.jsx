@@ -11,9 +11,15 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 
 // actions
 import { action as HomeAction } from "./pages/Home";
+import { useGlobalContext } from "./hooks/useGlobalContext";
+import { useEffect } from "react";
+// firebase
+import { onAuthStateChanged } from "firebase/auth";
+import {auth } from "./firebase/firebaseConfig";
+import { toast } from "react-toastify";
 
 function App() {
-  const user = false; 
+  const {user, dispatch, authReady} = useGlobalContext(); 
   const routes = createBrowserRouter([
     {
       path: "/",
@@ -60,7 +66,18 @@ function App() {
     },
   ]);
 
-  return <RouterProvider router={routes} />;
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+    
+        dispatch({type: "LOGIN", payload:user})
+      
+      dispatch({type: "AUTH_READY"})
+    })
+  }, [])
+
+  return <>
+  {authReady &&  <RouterProvider router={routes} />}
+  </>;
 }
 
 export default App;
