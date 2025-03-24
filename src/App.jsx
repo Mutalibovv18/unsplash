@@ -11,7 +11,10 @@ import ProtectedRoutes from "./components/ProtectedRoutes";
 
 // actions
 import { action as HomeAction } from "./pages/Home";
+import {action as RegisterAction} from './pages/Register'
+import {action as LoginAction} from './pages/Login'
 import { useGlobalContext } from "./hooks/useGlobalContext";
+
 import { useEffect } from "react";
 // firebase
 import { onAuthStateChanged } from "firebase/auth";
@@ -59,10 +62,12 @@ function App() {
     {
       path: "/login",
       element: user ? <Navigate to="/" /> : <Login />,
+      action: LoginAction,
     },
     {
       path: "/register",
       element: user ? <Navigate to="/" /> : <Register />,
+      action: RegisterAction,
     },
   ]);
 

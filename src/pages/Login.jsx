@@ -4,11 +4,48 @@ import { FormInput } from "../components"
 // react-icons
 import { FcGoogle } from "react-icons/fc";
 
+// react
+import { useActionData } from "react-router-dom";
+
 // custom hooks
 import { useRegister } from "../hooks/useRegister";
+import { useLogin } from "../hooks/useLogin";
+
+// react-hooks
+import { useEffect } from "react";
+
+// action
+
+export const action = async ({ request }) => {
+  const form = await request.formData();
+  const email = form.get("email");
+  const password = form.get("password");
+
+return {
+  email,
+  password,
+};
+ };
+
+
+
+
 
 function Login() {
+  const inputData = useActionData();
   const {registerWithGoogle} = useRegister()
+  const {loginWithEmail} = useLogin();
+
+
+  useEffect(() => {
+    if (inputData) {
+   loginWithEmail(inputData.email, inputData.password);
+    } else if (inputData) {
+      registerWithEmail(inputData.displayName, inputData.email, inputData.password);
+    }
+  }, [inputData]);
+
+
   return (
    
     <div className='flex min-h-screen w-full'>

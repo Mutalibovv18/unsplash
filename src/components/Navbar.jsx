@@ -36,7 +36,7 @@ function Navbar() {
       await signOut(auth);
       dispatch({ type: "LOGOUT" });
       toast.success("See you soon");
-      navigate('/login'); // Redirect to the login page after successful logout
+      navigate('/login'); 
     } catch (error) {
       toast.error(error.message);
     }
@@ -92,12 +92,11 @@ function Navbar() {
           </label>
 
           <div className='flex gap-3 items-center'>
-            {/* Check if user exists before accessing its properties */}
             {user && user.displayName ? (
-              <p>{user.displayName.split("")[0]}</p> // Safely display the first character of the user's display name
+              <p>{user.displayName}</p> 
             ) : (
-              <p>U</p> // Default value in case the user or displayName is null
-            )}
+              <p>U</p> 
+            )} 
 
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
