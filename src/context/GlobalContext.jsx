@@ -1,4 +1,5 @@
 import { createContext, useEffect, useReducer } from "react";
+import { useCollection } from "../hooks/useCollection";
 
 export const GlobalContext = createContext();
 
@@ -57,6 +58,9 @@ const changeState = (state, action) => {
 };
 
 export function GlobalContextProvider({ children }) {
+  const {data:likedImages} = useCollection('likedImages')
+
+  
   const [state, dispatch] = useReducer(changeState, {
     user: null,
     authReady: false,

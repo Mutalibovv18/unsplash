@@ -63,8 +63,7 @@ function Register() {
             </button>
           </div>
 
-          <div className="flex justify-between flex-col md:flex-row text-center">
-            <p className="text-white md:text-black">Forgot password?</p>
+          <div className="text-center">
             <Link to="/login">
               <p className="text-white md:text-black link link-primary">You already have an account!</p>
             </Link>

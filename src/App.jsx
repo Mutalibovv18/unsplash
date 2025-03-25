@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 
 // pages
-import { Home, About, Contact, LikedImages, DownloadImages, ImageInfo, Login, Register } from "./pages";
+import { Home, About, Contact, LikedImages, DownloadImages, ImageInfo, Login, Register, Profile } from "./pages";
 
 // layouts
 import MainLayout from "./layouts/MainLayout";
@@ -57,6 +57,11 @@ function App() {
           path: "/imageInfo/:id",
           element: <ImageInfo />,
         },
+
+        {
+          path:"/profile",
+          element: <Profile/>
+        }
       ],
     },
     {

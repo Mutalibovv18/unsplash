@@ -8,6 +8,12 @@ export const useCollection = ({ collectionName }) => {
 
   useEffect(() => {
     const getData = async () => {
+      if (!collectionName) {
+        console.error("Error: collectionName is empty");
+        setError(new Error("Collection name cannot be empty"));
+        return;
+      }
+
       try {
         const querySnapshot = await getDocs(collection(db, collectionName));
         const items = querySnapshot.docs.map((doc) => ({
@@ -15,7 +21,7 @@ export const useCollection = ({ collectionName }) => {
           ...doc.data(),
         }));
 
-        console.log("Fetched documents:", items); // Debugging
+        console.log("Fetched documents:", items);
         setData(items);
       } catch (error) {
         console.error("Error fetching collection:", error);
