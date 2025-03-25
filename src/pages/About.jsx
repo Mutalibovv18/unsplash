@@ -1,29 +1,25 @@
 import React from "react";
+import { useCollection } from "../hooks/useCollection";
 
 function About() {
-  return (
-    <div className="max-w-3xl mx-auto mt-12 p-10 bg-white shadow-lg rounded-lg text-center">
-      <h1 className="text-4xl font-bold text-gray-800 mb-6">About Unsplash Explorer</h1>
-      <p className="text-lg text-gray-600 leading-relaxed">
-        Unsplash Explorer is a platform dedicated to providing high-quality, royalty-free images 
-        from talented photographers worldwide. Whether you're a designer, writer, or creative professional, 
-        you’ll find stunning visuals to enhance your projects.
-      </p>
+  const { data, error } = useCollection({ collectionName: "images" });
 
-      <div className="mt-6 space-y-4 text-gray-700 text-lg">
-        <p>
-          Our mission is to make high-resolution photography accessible to everyone while supporting 
-          creators who bring beauty and inspiration through their work.
-        </p>
-        <p>
-          With an ever-growing library, Unsplash Explorer allows users to search, discover, and explore 
-          breathtaking visuals across different categories, making it an essential resource for creative minds.
-        </p>
-        <p>
-          Every image tells a story, and through this platform, we connect photographers with people who 
-          appreciate and use their art in meaningful ways.
-        </p>
-      </div>
+  if (error) return <p>Error fetching data: {error.message}</p>;
+  if (!data || data.length === 0) return <p>Loading...</p>; // Handle loading state
+
+  return (
+    <div className="align-elements py-5">
+      {data.map((item, index) => (
+        <div key={item.id || index} className="card">
+          <div className="card-body border mb-3">
+            <h1 className="text-2xl font-medium">{item.title || "No Title"}</h1>
+            <p>{item.description || "No Description"}</p>
+            <button className="btn btn-primary self-start">
+              {item.completed ? "Uncompleted" : "Completed"}
+            </button>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
